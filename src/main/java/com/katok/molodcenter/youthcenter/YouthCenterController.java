@@ -21,16 +21,23 @@ public class YouthCenterController {
         return YouthCenterDto.toYouthCenterDto(youthCenter);
     }
 
+    @GetMapping
+    public List<YouthCenterDto> getYouthCentersByLocation(@RequestBody GeoLocationCreateDto geoLocationCreateDto) {
+        List<YouthCenter> youthCenters = youthCenterService.getYouthCentersByLocation(geoLocationCreateDto.getGeoLocation(), geoLocationCreateDto.getRadius());
+
+        return youthCenters.stream().map(YouthCenterDto::toYouthCenterDto).toList();
+    }
+
     @GetMapping("/{id}/events")
     public List<Event> getEventsByYouthCenter(@PathVariable Long id) {
         return youthCenterService.getEventsByYouthCenterId(id);
     }
 
     @PostMapping
-    public ResponseEntity<YouthCenterDto> createYouthCenter(@RequestBody YouthCenterDto youthCenterDto) {
+    public ResponseEntity<YouthCenterDto> createYouthCenter(@RequestBody YouthCenterCreateDto youthCenterCreateDto) {
         YouthCenter youthCenter = YouthCenter.builder()
-                .geoLocation(youthCenterDto.getGeoLocation())
-                .name(youthCenterDto.getName())
+                .geoLocation(youthCenterCreateDto.getGeoLocation())
+                .name(youthCenterCreateDto.getName())
                 .build();
 
         youthCenter = youthCenterService.addYouthCenter(youthCenter);
@@ -39,10 +46,10 @@ public class YouthCenterController {
     }
 
     @PatchMapping("/{id}")
-    public YouthCenterDto updateYouthCenter(@PathVariable Long id, @RequestBody YouthCenterDto youthCenterDto) {
+    public YouthCenterDto updateYouthCenter(@PathVariable Long id, @RequestBody YouthCenterCreateDto youthCenterCreateDto) {
         YouthCenter youthCenterDetails = YouthCenter.builder()
-                .name(youthCenterDto.getName())
-                .geoLocation(youthCenterDto.getGeoLocation())
+                .name(youthCenterCreateDto.getName())
+                .geoLocation(youthCenterCreateDto.getGeoLocation())
                 .build();
 
         YouthCenter youthCenter = youthCenterService.updateYouthCenter(id, youthCenterDetails);
