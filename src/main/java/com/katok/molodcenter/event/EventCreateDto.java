@@ -13,6 +13,7 @@ public class EventCreateDto {
     public static EventCreateDto toEventDto(Event event) {
         return new EventCreateDto (
                 event.getYouthCenter().getId(),
+                event.getCategory().getId(),
                 event.getName(),
                 event.getDescription(),
                 event.getStartDateTime(),
@@ -21,6 +22,7 @@ public class EventCreateDto {
     }
 
     private Long youthCenterId;
+    private Long categoryId;
     private String name;
     private String description;
     private OffsetDateTime startDateTime;

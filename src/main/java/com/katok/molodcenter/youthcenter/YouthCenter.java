@@ -1,5 +1,6 @@
 package com.katok.molodcenter.youthcenter;
 
+import com.katok.molodcenter.category.Category;
 import com.katok.molodcenter.event.Event;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -30,4 +31,8 @@ public class YouthCenter {
     @Builder.Default
     @OneToMany(mappedBy = "youthCenter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Event> events = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "youthCenter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Category> categories = new ArrayList<>();
 }

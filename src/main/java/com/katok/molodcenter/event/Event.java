@@ -1,5 +1,6 @@
 package com.katok.molodcenter.event;
 
+import com.katok.molodcenter.category.Category;
 import com.katok.molodcenter.youthcenter.YouthCenter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,10 @@ public class Event {
     private String name;
 
     private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 
     @Column(name = "start_date_time", nullable = false)
     private OffsetDateTime startDateTime;

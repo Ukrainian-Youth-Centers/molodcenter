@@ -14,6 +14,7 @@ public class EventDto {
         return new EventDto(
                 event.getId(),
                 event.getYouthCenter().getId(),
+                event.getCategory().getId(),
                 event.getName(),
                 event.getDescription(),
                 event.getStartDateTime(),
@@ -23,6 +24,7 @@ public class EventDto {
 
     private Long id;
     private Long youthCenterId;
+    private Long categoryId;
     private String name;
     private String description;
     private OffsetDateTime startDateTime;

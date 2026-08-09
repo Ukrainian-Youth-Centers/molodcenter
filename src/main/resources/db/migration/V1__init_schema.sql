@@ -7,7 +7,7 @@ CREATE TABLE youth_centers (
 
 CREATE TABLE events (
     id BIGSERIAL PRIMARY KEY,
-    youth_center_id BIGSERIAL NOT NULL,
+    youth_center_id BIGINT NOT NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT
 )

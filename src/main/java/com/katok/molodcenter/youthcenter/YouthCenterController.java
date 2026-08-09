@@ -1,6 +1,8 @@
 package com.katok.molodcenter.youthcenter;
 
-import com.katok.molodcenter.event.Event;
+import com.katok.molodcenter.category.CategoryDto;
+import com.katok.molodcenter.event.EventDto;
+import com.katok.molodcenter.event.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,8 @@ import java.util.List;
 public class YouthCenterController {
     @Autowired
     private YouthCenterService youthCenterService;
+    @Autowired
+    private EventService eventService;
 
     @GetMapping("/{id}")
     public YouthCenterDto getYouthCenterById(@PathVariable Long id) {
@@ -29,8 +33,22 @@ public class YouthCenterController {
     }
 
     @GetMapping("/{id}/events")
-    public List<Event> getEventsByYouthCenter(@PathVariable Long id) {
-        return youthCenterService.getEventsByYouthCenterId(id);
+    public List<EventDto> getEventsByYouthCenter(@PathVariable Long id,
+                                                 @RequestParam(required = false) Long categoryId) {
+        if (categoryId == null) {
+            return youthCenterService.getEventsByYouthCenterId(id).stream()
+                    .map(EventDto::toEventDto)
+                    .toList();
+        } else {
+            return eventService.getEventsByYouthCenterAndCategory(id, categoryId).stream()
+                    .map(EventDto::toEventDto)
+                    .toList();
+        }
+    }
+
+    @GetMapping("/{id}/categories")
+    public List<CategoryDto> getCategoriesByYouthCenter(@PathVariable Long id) {
+        return youthCenterService.getCategoriesByYouthCenterId(id).stream().map(CategoryDto::toCategoryDto).toList();
     }
 
     @PostMapping

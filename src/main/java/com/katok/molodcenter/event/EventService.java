@@ -3,6 +3,8 @@ package com.katok.molodcenter.event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EventService {
     @Autowired
@@ -15,6 +17,10 @@ public class EventService {
     public Event getEventById(Long id) {
         return eventRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Event with id " + id + " undefined"));
+    }
+
+    public List<Event> getEventsByYouthCenterAndCategory(Long youthCenterId, Long categoryId) {
+        return eventRepository.findByYouthCenterIdAndCategoryId(youthCenterId, categoryId);
     }
 
     public void deleteEvent(Long id) {

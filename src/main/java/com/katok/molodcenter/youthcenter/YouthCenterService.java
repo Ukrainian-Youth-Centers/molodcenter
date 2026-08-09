@@ -1,5 +1,6 @@
 package com.katok.molodcenter.youthcenter;
 
+import com.katok.molodcenter.category.Category;
 import com.katok.molodcenter.event.Event;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,5 +52,14 @@ public class YouthCenterService {
         youthCenter.getEvents().size();
 
         return youthCenter.getEvents();
+    }
+
+    @Transactional(readOnly = true)
+    public List<Category> getCategoriesByYouthCenterId(Long id) {
+        YouthCenter youthCenter = getYouthCenterById(id);
+
+        youthCenter.getCategories().size();
+
+        return youthCenter.getCategories();
     }
 }
