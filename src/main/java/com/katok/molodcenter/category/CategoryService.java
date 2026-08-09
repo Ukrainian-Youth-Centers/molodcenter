@@ -1,14 +1,14 @@
 package com.katok.molodcenter.category;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
+@RequiredArgsConstructor
 @Service
 public class CategoryService {
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public Category addCategory(Category category) {
         return categoryRepository.save(category);
@@ -31,8 +31,12 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public List<Category> getAllGlobalCategories() {
-        return categoryRepository.findAllByYouthCenterIsNull();
+    public Page<Category> getAllGlobalCategories(Pageable pageable) {
+        return categoryRepository.findAllByYouthCenterIsNull(pageable);
+    }
+
+    public Page<Category> getCategoriesByYouthCenterId(Long youthCenterId, Pageable pageable) {
+        return categoryRepository.findAllByYouthCenterId(youthCenterId, pageable);
     }
 
     public void deleteCategory(Long id) {

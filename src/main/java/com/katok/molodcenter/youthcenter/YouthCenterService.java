@@ -1,17 +1,15 @@
 package com.katok.molodcenter.youthcenter;
 
-import com.katok.molodcenter.category.Category;
-import com.katok.molodcenter.event.Event;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
+@RequiredArgsConstructor
 @Service
 public class YouthCenterService {
-    @Autowired
-    private YouthCenterRepository youthCenterRepository;
+    private final YouthCenterRepository youthCenterRepository;
 
     @Transactional(readOnly = true)
     public YouthCenter getYouthCenterById(Long id) {
@@ -19,8 +17,8 @@ public class YouthCenterService {
                 .orElseThrow(() -> new IllegalArgumentException("Youth center with id " + id + " undefined"));
     }
 
-    public List<YouthCenter> getYouthCentersByLocation(GeoLocation geoLocation, Double radius) {
-        return youthCenterRepository.findNearby(geoLocation.getLatitude(), geoLocation.getLongitude(), radius);
+    public Page<YouthCenter> getYouthCentersByLocation(GeoLocation geoLocation, Double radius, Pageable pageable) {
+        return youthCenterRepository.findNearby(geoLocation.getLatitude(), geoLocation.getLongitude(), radius, pageable);
     }
 
     public YouthCenter addYouthCenter(YouthCenter youthCenter) {
@@ -43,23 +41,5 @@ public class YouthCenterService {
         }
 
         return youthCenterRepository.save(youthCenter);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Event> getEventsByYouthCenterId(Long id) {
-        YouthCenter youthCenter = getYouthCenterById(id);
-
-        youthCenter.getEvents().size();
-
-        return youthCenter.getEvents();
-    }
-
-    @Transactional(readOnly = true)
-    public List<Category> getCategoriesByYouthCenterId(Long id) {
-        YouthCenter youthCenter = getYouthCenterById(id);
-
-        youthCenter.getCategories().size();
-
-        return youthCenter.getCategories();
     }
 }

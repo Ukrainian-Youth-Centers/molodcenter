@@ -4,18 +4,33 @@ import com.katok.molodcenter.category.Category;
 import com.katok.molodcenter.category.CategoryService;
 import com.katok.molodcenter.youthcenter.YouthCenter;
 import com.katok.molodcenter.youthcenter.YouthCenterService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
+
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/events")
 public class EventController {
-    @Autowired
-    private EventService eventService;
-    @Autowired
-    private YouthCenterService youthCenterService;
-    @Autowired
-    private CategoryService categoryService;
+    private final EventService eventService;
+    private final YouthCenterService youthCenterService;
+    private final CategoryService categoryService;
+
+    @GetMapping
+    public Page<EventDto> getEvents(
+            @RequestParam(required = false) OffsetDateTime startTimeFrom,
+            @RequestParam(required = false) OffsetDateTime startTimeTo,
+            @RequestParam(required = false) OffsetDateTime endTimeFrom,
+            @RequestParam(required = false) OffsetDateTime endTimeTo,
+            @RequestParam(defaultValue = "0") int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+
+        return eventService.getEventsByTimeRange(startTimeFrom, startTimeTo, endTimeFrom, endTimeTo, pageable).map(EventDto::toEventDto);
+    }
 
     @GetMapping("/{id}")
     public EventDto getEventById(Long id) {

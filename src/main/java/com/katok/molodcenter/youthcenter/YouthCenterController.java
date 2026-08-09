@@ -1,22 +1,24 @@
 package com.katok.molodcenter.youthcenter;
 
 import com.katok.molodcenter.category.CategoryDto;
+import com.katok.molodcenter.category.CategoryService;
 import com.katok.molodcenter.event.EventDto;
 import com.katok.molodcenter.event.EventService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/youth-centers")
 public class YouthCenterController {
-    @Autowired
-    private YouthCenterService youthCenterService;
-    @Autowired
-    private EventService eventService;
+    private final YouthCenterService youthCenterService;
+    private final EventService eventService;
+    private final CategoryService categoryService;
 
     @GetMapping("/{id}")
     public YouthCenterDto getYouthCenterById(@PathVariable Long id) {
@@ -26,29 +28,37 @@ public class YouthCenterController {
     }
 
     @GetMapping
-    public List<YouthCenterDto> getYouthCentersByLocation(@RequestBody GeoLocationCreateDto geoLocationCreateDto) {
-        List<YouthCenter> youthCenters = youthCenterService.getYouthCentersByLocation(geoLocationCreateDto.getGeoLocation(), geoLocationCreateDto.getRadius());
+    public Page<YouthCenterDto> getYouthCentersByLocation(@RequestParam Double latitude,
+                                                          @RequestParam Double longitude,
+                                                          @RequestParam Double radius,
+                                                          @RequestParam(defaultValue = "0") int page) {
+        Pageable pageable = PageRequest.of(page, 10);
 
-        return youthCenters.stream().map(YouthCenterDto::toYouthCenterDto).toList();
+        Page<YouthCenter> youthCenters = youthCenterService.getYouthCentersByLocation(new GeoLocation(latitude, longitude), radius, pageable);
+
+        return youthCenters.map(YouthCenterDto::toYouthCenterDto);
     }
 
     @GetMapping("/{id}/events")
-    public List<EventDto> getEventsByYouthCenter(@PathVariable Long id,
-                                                 @RequestParam(required = false) Long categoryId) {
+    public Page<EventDto> getEventsByYouthCenter(@PathVariable Long id,
+                                                 @RequestParam(required = false) Long categoryId,
+                                                 @RequestParam(defaultValue = "0") int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+
         if (categoryId == null) {
-            return youthCenterService.getEventsByYouthCenterId(id).stream()
-                    .map(EventDto::toEventDto)
-                    .toList();
+            return eventService.getEventsByYouthCenterId(id, pageable).map(EventDto::toEventDto);
         } else {
-            return eventService.getEventsByYouthCenterAndCategory(id, categoryId).stream()
-                    .map(EventDto::toEventDto)
-                    .toList();
+            return eventService.getEventsByYouthCenterAndCategory(id, categoryId, pageable)
+                    .map(EventDto::toEventDto);
         }
     }
 
     @GetMapping("/{id}/categories")
-    public List<CategoryDto> getCategoriesByYouthCenter(@PathVariable Long id) {
-        return youthCenterService.getCategoriesByYouthCenterId(id).stream().map(CategoryDto::toCategoryDto).toList();
+    public Page<CategoryDto> getCategoriesByYouthCenter(@PathVariable Long id,
+                                                        @RequestParam(defaultValue = "0") int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+
+        return categoryService.getCategoriesByYouthCenterId(id, pageable).map(CategoryDto::toCategoryDto);
     }
 
     @PostMapping

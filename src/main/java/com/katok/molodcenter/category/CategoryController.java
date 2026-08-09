@@ -2,25 +2,27 @@ package com.katok.molodcenter.category;
 
 import com.katok.molodcenter.youthcenter.YouthCenter;
 import com.katok.molodcenter.youthcenter.YouthCenterService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {
-    @Autowired
-    private CategoryService categoryService;
-
-    @Autowired
-    private YouthCenterService youthCenterService;
+    private final CategoryService categoryService;
+    private final YouthCenterService youthCenterService;
 
     @GetMapping
-    public List<Category> getAllGlobalCategories() {
-        return categoryService.getAllGlobalCategories();
+    public Page<CategoryDto> getAllGlobalCategories(@RequestParam(defaultValue = "0") int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+
+        return categoryService.getAllGlobalCategories(pageable)
+                .map(CategoryDto::toCategoryDto);
     }
 
     @GetMapping("/{id}")

@@ -1,14 +1,16 @@
 package com.katok.molodcenter.event;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.time.OffsetDateTime;
 
+@RequiredArgsConstructor
 @Service
 public class EventService {
-    @Autowired
-    private EventRepository eventRepository;
+    private final EventRepository eventRepository;
 
     public Event addEvent(Event event) {
         return eventRepository.save(event);
@@ -19,8 +21,26 @@ public class EventService {
                 .orElseThrow(() -> new IllegalArgumentException("Event with id " + id + " undefined"));
     }
 
-    public List<Event> getEventsByYouthCenterAndCategory(Long youthCenterId, Long categoryId) {
-        return eventRepository.findByYouthCenterIdAndCategoryId(youthCenterId, categoryId);
+    public Page<Event> getEvents(Pageable pageable) {
+        return eventRepository.findAll(pageable);
+    }
+
+    public Page<Event> getEventsByYouthCenterAndCategory(Long youthCenterId, Long categoryId, Pageable pageable) {
+        return eventRepository.findByYouthCenterIdAndCategoryId(youthCenterId, categoryId, pageable);
+    }
+
+    public Page<Event> getEventsByYouthCenterId(Long youthCenterId, Pageable pageable) {
+        return eventRepository.findByYouthCenterId(youthCenterId, pageable);
+    }
+
+    public Page<Event> getEventsByTimeRange(
+            OffsetDateTime startTimeFrom,
+            OffsetDateTime startTimeTo,
+            OffsetDateTime endTimeFrom,
+            OffsetDateTime endTimeTo,
+            Pageable pageable
+    ) {
+        return eventRepository.findEventsByTimeRange(startTimeFrom, startTimeTo, endTimeFrom, endTimeTo, pageable);
     }
 
     public void deleteEvent(Long id) {
