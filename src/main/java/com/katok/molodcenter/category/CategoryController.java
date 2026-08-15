@@ -2,6 +2,7 @@ package com.katok.molodcenter.category;
 
 import com.katok.molodcenter.youthcenter.YouthCenter;
 import com.katok.molodcenter.youthcenter.YouthCenterService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -31,7 +32,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryCreateDto categoryCreateDto) {
+    public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryCreateDto categoryCreateDto) {
         Category category = Category.builder()
                 .name(categoryCreateDto.getName())
                 .build();
@@ -55,7 +56,7 @@ public class CategoryController {
     }
 
     @PatchMapping("/{id}")
-    public CategoryDto updateCategory(@PathVariable Long id, @RequestBody CategoryCreateDto categoryCreateDto) {
+    public CategoryDto updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryCreateDto categoryCreateDto) {
         Category categoryDetails = Category.builder()
                 .name(categoryCreateDto.getName())
                 .build();

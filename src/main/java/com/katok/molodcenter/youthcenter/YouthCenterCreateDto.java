@@ -1,5 +1,7 @@
 package com.katok.molodcenter.youthcenter;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +17,8 @@ public class YouthCenterCreateDto {
         );
     }
 
+    @NotNull
     private GeoLocation geoLocation;
+    @NotBlank
     private String name;
 }

@@ -4,6 +4,7 @@ import com.katok.molodcenter.category.Category;
 import com.katok.molodcenter.category.CategoryService;
 import com.katok.molodcenter.youthcenter.YouthCenter;
 import com.katok.molodcenter.youthcenter.YouthCenterService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -38,7 +39,7 @@ public class EventController {
     }
 
     @PostMapping
-    public EventDto addEvent(@RequestBody EventCreateDto eventCreateDtoDetails) {
+    public EventDto addEvent(@Valid @RequestBody EventCreateDto eventCreateDtoDetails) {
         YouthCenter youthCenter = youthCenterService.getYouthCenterById(eventCreateDtoDetails.getYouthCenterId());
         Category category = categoryService.getCategoryById(eventCreateDtoDetails.getCategoryId());
 
@@ -57,7 +58,7 @@ public class EventController {
     }
 
     @PatchMapping("/{id}")
-    public EventDto updateEvent(@PathVariable Long id, @RequestBody EventCreateDto eventCreateDtoDetails) {
+    public EventDto updateEvent(@PathVariable Long id, @Valid @RequestBody EventCreateDto eventCreateDtoDetails) {
         Event eventDetails = Event.builder()
                 .description(eventCreateDtoDetails.getDescription())
                 .name(eventCreateDtoDetails.getName())

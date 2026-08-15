@@ -4,6 +4,7 @@ import com.katok.molodcenter.category.CategoryDto;
 import com.katok.molodcenter.category.CategoryService;
 import com.katok.molodcenter.event.EventDto;
 import com.katok.molodcenter.event.EventService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -62,7 +63,7 @@ public class YouthCenterController {
     }
 
     @PostMapping
-    public ResponseEntity<YouthCenterDto> createYouthCenter(@RequestBody YouthCenterCreateDto youthCenterCreateDto) {
+    public ResponseEntity<YouthCenterDto> createYouthCenter(@Valid @RequestBody YouthCenterCreateDto youthCenterCreateDto) {
         YouthCenter youthCenter = YouthCenter.builder()
                 .geoLocation(youthCenterCreateDto.getGeoLocation())
                 .name(youthCenterCreateDto.getName())
@@ -74,7 +75,7 @@ public class YouthCenterController {
     }
 
     @PatchMapping("/{id}")
-    public YouthCenterDto updateYouthCenter(@PathVariable Long id, @RequestBody YouthCenterCreateDto youthCenterCreateDto) {
+    public YouthCenterDto updateYouthCenter(@PathVariable Long id, @Valid @RequestBody YouthCenterCreateDto youthCenterCreateDto) {
         YouthCenter youthCenterDetails = YouthCenter.builder()
                 .name(youthCenterCreateDto.getName())
                 .geoLocation(youthCenterCreateDto.getGeoLocation())
