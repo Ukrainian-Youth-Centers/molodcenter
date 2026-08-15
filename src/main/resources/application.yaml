@@ -22,3 +22,11 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+
+event:
+  delete-after-days: 30
+
+scheduler:
+  event:
+    limit: 5000
+    cooldown: 1000

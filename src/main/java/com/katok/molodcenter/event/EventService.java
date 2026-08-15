@@ -47,6 +47,14 @@ public class EventService {
         eventRepository.deleteById(id);
     }
 
+    public int deleteEvents(OffsetDateTime startTimeFrom,
+                            OffsetDateTime startTimeTo,
+                            OffsetDateTime endTimeFrom,
+                            OffsetDateTime endTimeTo,
+                            int limit) {
+        return eventRepository.deleteEventsByTimeRange(startTimeFrom, startTimeTo, endTimeFrom, endTimeTo, limit);
+    }
+
     public Event updateEvent(Long id, Event eventDetails) {
         Event event = getEventById(id);
 
