@@ -14,12 +14,12 @@ import java.time.OffsetDateTime;
 public interface EventRepository extends JpaRepository<Event, Long> {
     Page<Event> findByYouthCenterIdAndCategoryId(Long youthCenterId, Long categoryId, Pageable pageable);
     @Query(value = """
-        SELECT e FROM Event e 
-        WHERE (:startTimeFrom IS NULL OR e.startDateTime >= :startTimeFrom)
-          AND (:startTimeTo IS NULL OR e.startDateTime <= :startTimeTo)
-          AND (:endTimeFrom IS NULL OR e.endDateTime >= :endTimeFrom)
-          AND (:endTimeTo IS NULL OR e.endDateTime <= :endTimeTo)
-    """)
+        SELECT e FROM Event e
+        WHERE (CAST(:startTimeFrom AS timestamp) IS NULL OR e.startDateTime >= :startTimeFrom)
+          AND (CAST(:startTimeTo AS timestamp) IS NULL OR e.startDateTime <= :startTimeTo)
+          AND (CAST(:endTimeFrom AS timestamp) IS NULL OR e.endDateTime >= :endTimeFrom)
+          AND (CAST(:endTimeTo AS timestamp) IS NULL OR e.endDateTime <= :endTimeTo)
+        """)
     Page<Event> findEventsByTimeRange(
             @Param("startTimeFrom") OffsetDateTime startTimeFrom,
             @Param("startTimeTo") OffsetDateTime startTimeTo,
