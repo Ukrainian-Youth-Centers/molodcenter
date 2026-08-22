@@ -34,7 +34,7 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public EventDto getEventById(Long id) {
+    public EventDto getEventById(@PathVariable Long id) {
         return EventDto.toEventDto(eventService.getEventById(id));
     }
 
