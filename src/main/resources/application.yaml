@@ -30,3 +30,4 @@ scheduler:
   event:
     limit: 5000
     cooldown: 1000
+    cron: "0 0 3 * * *"

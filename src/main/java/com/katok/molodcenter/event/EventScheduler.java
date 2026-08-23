@@ -21,7 +21,7 @@ public class EventScheduler {
     private int deleteAfterDays;
 
     @Async
-    @Scheduled(cron = "0 0 3 * * *")
+    @Scheduled(cron = "${scheduler.event.cron}")
     public void executeDeleteEventsTask() {
         OffsetDateTime deleteTime = OffsetDateTime.now().minusDays(deleteAfterDays);
 
