@@ -17,7 +17,7 @@ public class YouthCenterService {
                 .orElseThrow(() -> new IllegalArgumentException("Youth center with id " + id + " undefined"));
     }
 
-    public Page<YouthCenter> getYouthCentersByLocation(GeoLocation geoLocation, Double radius, Pageable pageable) {
+    public Page<YouthCenter> getYouthCentersByLocation(GeoLocation geoLocation, Float radius, Pageable pageable) {
         return youthCenterRepository.findNearby(geoLocation.getLatitude(), geoLocation.getLongitude(), radius, pageable);
     }
 

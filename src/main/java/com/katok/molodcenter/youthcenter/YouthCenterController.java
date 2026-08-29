@@ -29,9 +29,9 @@ public class YouthCenterController {
     }
 
     @GetMapping
-    public Page<YouthCenterDto> getYouthCentersByLocation(@RequestParam Double latitude,
-                                                          @RequestParam Double longitude,
-                                                          @RequestParam Double radius,
+    public Page<YouthCenterDto> getYouthCentersByLocation(@RequestParam Float latitude,
+                                                          @RequestParam Float longitude,
+                                                          @RequestParam Float radius,
                                                           @RequestParam(defaultValue = "0") int page) {
         Pageable pageable = PageRequest.of(page, 10);
 

@@ -16,8 +16,8 @@ public interface YouthCenterRepository extends JpaRepository<YouthCenter, Long> 
         * sin(radians(c.latitude)))) <= :radius
         """, nativeQuery = true)
     Page<YouthCenter> findNearby(
-            @Param("latitude") Double latitude,
-            @Param("longitude") Double longitude,
-            @Param("radius") Double radius,
+            @Param("latitude") Float latitude,
+            @Param("longitude") Float longitude,
+            @Param("radius") Float radius,
             Pageable pageable);
 }

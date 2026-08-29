@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 public class GeoLocation {
     @NotNull
     @Column(nullable = false)
-    private Double latitude;
+    private Float latitude;
 
     @NotNull
     @Column(nullable = false)
-    private Double longitude;
+    private Float longitude;
 }
