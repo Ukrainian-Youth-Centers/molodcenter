@@ -28,6 +28,9 @@ public class YouthCenter {
     @Column(nullable = false)
     private String name;
 
+    @Column(name = "external_id", unique = true, nullable = false, length = 20)
+    private String externalId;
+
     @Builder.Default
     @OneToMany(mappedBy = "youthCenter", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Event> events = new ArrayList<>();

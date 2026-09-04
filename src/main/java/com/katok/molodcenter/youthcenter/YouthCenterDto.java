@@ -12,11 +12,13 @@ public class YouthCenterDto {
         return new YouthCenterDto(
                 youthCenter.getId(),
                 youthCenter.getGeoLocation(),
-                youthCenter.getName()
+                youthCenter.getName(),
+                youthCenter.getExternalId()
         );
     }
 
     private Long id;
     private GeoLocation geoLocation;
     private String name;
+    private String externalId;
 }

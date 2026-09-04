@@ -1,0 +1,1 @@
+ALTER TABLE youth_centers ADD COLUMN external_id VARCHAR(20) UNIQUE NOT NULL;

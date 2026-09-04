@@ -1,5 +1,6 @@
 package com.katok.molodcenter.youthcenter;
 
+import com.katok.molodcenter.utils.NanoIdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +23,8 @@ public class YouthCenterService {
     }
 
     public YouthCenter addYouthCenter(YouthCenter youthCenter) {
+        youthCenter.setExternalId(NanoIdGenerator.generate(20));
+
         return youthCenterRepository.save(youthCenter);
     }
 
