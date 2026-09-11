@@ -28,6 +28,11 @@ public class YouthCenterController {
         return YouthCenterDto.toYouthCenterDto(youthCenter);
     }
 
+    @GetMapping("/search")
+    public YouthCenterDto getYouthCenter(@RequestParam String externalId) {
+        return YouthCenterDto.toYouthCenterDto(youthCenterService.getYouthCenterByExternalId(externalId));
+    }
+
     @GetMapping
     public Page<YouthCenterDto> getYouthCentersByLocation(@RequestParam Float latitude,
                                                           @RequestParam Float longitude,

@@ -18,6 +18,12 @@ public class YouthCenterService {
                 .orElseThrow(() -> new IllegalArgumentException("Youth center with id " + id + " undefined"));
     }
 
+    @Transactional(readOnly = true)
+    public YouthCenter getYouthCenterByExternalId(String externalId) {
+        return youthCenterRepository.findByExternalId(externalId)
+                .orElseThrow(() -> new IllegalArgumentException("Youth center with external id " + externalId + " undefined"));
+    }
+
     public Page<YouthCenter> getYouthCentersByLocation(GeoLocation geoLocation, Float radius, Pageable pageable) {
         return youthCenterRepository.findNearby(geoLocation.getLatitude(), geoLocation.getLongitude(), radius, pageable);
     }

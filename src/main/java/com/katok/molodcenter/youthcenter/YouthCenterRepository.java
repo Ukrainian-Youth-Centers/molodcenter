@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface YouthCenterRepository extends JpaRepository<YouthCenter, Long> {
     @Query(value = """
@@ -20,4 +22,6 @@ public interface YouthCenterRepository extends JpaRepository<YouthCenter, Long> 
             @Param("longitude") Float longitude,
             @Param("radius") Float radius,
             Pageable pageable);
+
+    Optional<YouthCenter> findByExternalId(String externalId);
 }
