@@ -31,6 +31,11 @@ public class CategoryController {
         return CategoryDto.toCategoryDto(categoryService.getCategoryById(id));
     }
 
+    @GetMapping("/external-id/{externalId}")
+    public CategoryDto getCategoryByExternalId(@PathVariable String externalId) {
+        return CategoryDto.toCategoryDto(categoryService.getCategoryByExternalId(externalId));
+    }
+
     @PostMapping
     public ResponseEntity<CategoryDto> createCategory(@Valid @RequestBody CategoryCreateDto categoryCreateDto) {
         Category category = Category.builder()

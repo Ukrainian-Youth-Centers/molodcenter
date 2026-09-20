@@ -21,6 +21,9 @@ public class Category {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false, length = 20, unique = true)
+    private String externalId;
+
     @ManyToOne
     @JoinColumn(name = "youth_center_id")
     private YouthCenter youthCenter;
