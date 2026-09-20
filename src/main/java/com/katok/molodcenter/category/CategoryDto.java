@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CategoryDto {
     public static CategoryDto toCategoryDto(Category category) {
-
-        return new CategoryDto(category.getId(), category.getName(), category.getYouthCenter() == null ? null : category.getYouthCenter().getId());
+        return new CategoryDto(category.getId(), category.getName(), category.getExternalId(), category.getYouthCenter() == null ? null : category.getYouthCenter().getId());
     }
 
     private Long id;
     private String name;
+    private String externalId;
     private Long youthCenterId;
 }
