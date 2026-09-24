@@ -66,12 +66,6 @@ public class CategoryController {
                 .name(categoryCreateDto.getName())
                 .build();
 
-        if (categoryCreateDto.getYouthCenterId() != null) {
-            YouthCenter youthCenter = youthCenterService.getYouthCenterById(categoryCreateDto.getYouthCenterId());
-
-            categoryDetails.setYouthCenter(youthCenter);
-        }
-
         Category category = categoryService.updateCategory(id, categoryDetails);
 
         return CategoryDto.toCategoryDto(category);

@@ -34,8 +34,6 @@ public class CategoryService {
             category.setName(categoryDetails.getName());
         }
 
-        category.setYouthCenter(categoryDetails.getYouthCenter());
-
         return categoryRepository.save(category);
     }
 
